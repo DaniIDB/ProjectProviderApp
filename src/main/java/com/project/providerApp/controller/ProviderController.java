@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -34,18 +35,21 @@ public class ProviderController {
 		return msg;
 	}
 
+	@CrossOrigin(origins = "http://localhost:4200")
 	@GetMapping("/getFlights")
 	public String getFlights(final HttpServletResponse response) {
 		String json = providerService.getAllFlights();
 		return json;
 	}
 	
+	@CrossOrigin(origins = "http://localhost:4200")
 	@GetMapping("/getDestination")
 	public String getDestination(final HttpServletResponse response) {
 		String json = providerService.getAllDestination();
 		return json;
 	}
 
+	@CrossOrigin(origins = "http://localhost:4200")
 	@GetMapping("/createNewFlights")
 	public String createNewFlights(final HttpServletResponse response,
 			@RequestParam(value = "Departure", required = true) String departure,
@@ -66,20 +70,15 @@ public class ProviderController {
 		return errorMsg;
 	}
 	
+	@CrossOrigin(origins = "http://localhost:4200")
 	@GetMapping("/createNewDestination")
-	public String createNewDestination(final HttpServletResponse response,
-			@RequestParam(value = "Destination", required = true) String destination) {
-		String errorMsg = "";
-		String errorParameter = "?error=";
-		try {
-			if (providerService.saveNewDestination(destination).equals("Error")) {
-				response.sendRedirect(URL_PROVIDER_PAGE + errorParameter + "TWICE_DESTINATION");
-			} else {
-				response.sendRedirect(URL_PROVIDER_PAGE + errorParameter);
-			}
-		} catch (IOException e) {
-			errorMsg = "Error";
-		}
-		return errorMsg;
+	public String createNewDestination(@RequestParam(value = "Destination", required = true) String destination) {
+		return providerService.saveNewDestination(destination);
 	}
+	
+//	@CrossOrigin(origins = "http://localhost:4200")
+//	@GetMapping("/createNewDestination")
+//	public String modifyDestination(@RequestParam(value = "NewDestination", required = true) String newDestination) {
+//		return providerService.saveNewDestination(destination);
+//	}
 }

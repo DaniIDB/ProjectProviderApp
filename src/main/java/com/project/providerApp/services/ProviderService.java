@@ -9,7 +9,6 @@ import com.project.providerApp.repository.DestinationRepository;
 import com.project.providerApp.repository.FlightRepository;
 
 import lombok.RequiredArgsConstructor;
-import net.minidev.json.JSONObject;
 
 @Service
 @RequiredArgsConstructor
@@ -42,7 +41,7 @@ public class ProviderService {
 	}
 	
 	public String saveNewDestination(String destinationName) {
-		String msg="";
+		String msg="Ok";
 		Destination destination=new Destination();
 		destination.setDestination(destinationName);
 		try {
@@ -52,4 +51,8 @@ public class ProviderService {
 		}
 		return msg;
 	}
+	
+//	public String deleteDestination(String destinationName) {
+		
+//	}
 }
