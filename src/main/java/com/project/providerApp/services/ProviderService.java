@@ -1,5 +1,7 @@
 package com.project.providerApp.services;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import com.google.gson.Gson;
@@ -16,9 +18,9 @@ public class ProviderService {
 	private final FlightRepository flightRepository;
 	private final DestinationRepository destinationRepository;
 	
-	public String getAllFlights(){
-		String json = new Gson().toJson(flightRepository.findAll());
-		return json;
+	public List<Flights> getAllFlightsForToday(){
+		List<Flights> flights  = flightRepository.findByTodayDate();
+		return flights;
 	}
 	
 	public String getAllDestination(){

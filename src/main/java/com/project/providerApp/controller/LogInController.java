@@ -2,11 +2,14 @@ package com.project.providerApp.controller;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.project.providerApp.dto.User;
 import com.project.providerApp.services.UserService;
 
 import lombok.RequiredArgsConstructor;
@@ -20,10 +23,9 @@ public class LogInController {
 	
 	@CrossOrigin(origins = "http://localhost:4200")
 	@GetMapping("/getUserValues")
-	public String getUserValues(@RequestParam(value = "UserName", required = true) String userName,
+	public ResponseEntity<?> getUserValues(@RequestParam(value = "UserName", required = true) String userName,
 			@RequestParam(value = "Password", required = true) String password,final HttpServletResponse response) {
-		
-		String serviceMsg=userService.checkingIfUserExist(userName, password);
-		return serviceMsg;
+		User user = userService.checkingIfUserExist(userName, password);
+		return new ResponseEntity<User>(user,HttpStatus.OK);
 	}
 }

@@ -1,7 +1,10 @@
 package com.project.providerApp.services;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.project.providerApp.dto.User;
 import com.project.providerApp.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -11,13 +14,7 @@ import lombok.RequiredArgsConstructor;
 public class UserService {
 	private final UserRepository userRepository;
 	
-	public String checkingIfUserExist(String userName, String password) {
-		String msg="Ok";
-		try {
-			userRepository.findByUserNameAndPassword(userName, password).orElseThrow();
-		}catch (Exception e) {
-			msg="Error";
-		}
-		return msg;
+	public User checkingIfUserExist(String userName, String password) {
+		return userRepository.findByUserNameAndPassword(userName, password).orElse(null);
 	}
 }
