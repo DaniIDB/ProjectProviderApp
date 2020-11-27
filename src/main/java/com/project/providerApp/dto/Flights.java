@@ -2,6 +2,8 @@ package com.project.providerApp.dto;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
+import java.util.Date;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -21,4 +23,5 @@ public class Flights {
 	private String departure;
 	private String arrival;
 	private String user;
+	private Date date;
 }
