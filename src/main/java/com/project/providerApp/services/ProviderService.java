@@ -2,6 +2,7 @@ package com.project.providerApp.services;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
@@ -22,8 +23,13 @@ public class ProviderService {
 	private final FlightRepository flightRepository;
 	private final DestinationRepository destinationRepository;
 
+	public List<Flights> getAllFlights() {
+		List<Flights> flights = flightRepository.findAll();
+		return flights;
+	}
+	
 	public List<Flights> getAllFlightsForToday() {
-		List<Flights> flights = flightRepository.findByTodayDate();
+		List<Flights> flights = flightRepository.findByTodayDate(LocalDate.now().toString());
 		return flights;
 	}
 
@@ -88,20 +94,25 @@ public class ProviderService {
 		flight.setDate(date);
 		return flightRepository.save(flight);
 	}
+	
+	public void deleteFlight(int id) {
+		flightRepository.deleteById(id);
+	}
 
-//	public String saveNewDestination(String destinationName) {
-//		String msg="Ok";
-//		Destination destination=new Destination();
-//		destination.setDestination(destinationName);
-//		try {
-//			destinationRepository.save(destination);
-//		}catch (Exception e) {
-//			msg="Error";
-//		}
-//		return msg;
-//	}
+	public Destination saveNewDestination(String destinationName) throws Exception{
+		Destination destination=new Destination();
+		destination.setDestination(destinationName);
+		destinationRepository.save(destination);
+		return destination;
+	}
 
-//	public String deleteDestination(String destinationName) {
-
-//	}
+	public boolean deleteDestination(String destinationName,Integer id) {
+		List<Flights> flights = flightRepository.findByDeparture(destinationName);
+		flights.addAll(flightRepository.findByArrival(destinationName));
+		if(flights.isEmpty()) {
+			destinationRepository.deleteById(id);
+			return false;
+		}
+		return true;
+	}
 }
